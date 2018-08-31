@@ -1,8 +1,10 @@
+import base64
 import sys
 import logging
 import grpc
 import concurrent.futures as futures
 import services.common
+from nltk import word_tokenize, pos_tag, ne_chunk
 
 
 # Importing the generated codes from buildproto.sh
@@ -67,24 +69,108 @@ class ShowMessageServicer(grpc_bt_grpc.ShowMessageServicer):
 
 # Create a class to be added to the gRPC server
 # derived from the protobuf codes.
-class RecognizeServicerServicer(grpc_bt_grpc.RecognizeServicer):
+class TokenizeMessageServicer(grpc_bt_grpc.TokenizeMessageServicer):
 
     def __init__(self):
         # Just for debugging purpose.
-        log.debug("RecognizeServicer created")
+        log.debug("TokenizeMessageServicer created")
 
     # The method that will be exposed to the snet-cli call command.
     # request: incoming data
     # context: object that provides RPC-specific information (timeout, etc).
-    def recognize(self, request, context):
-
+    def tokenize(self, request, context):
         # In our case, request is a InputMessage() object (from .proto file)
         self.value = request.value
-
         # To respond we need to create a OutputMessage() object (from .proto file)
         self.result = OutputMessage()
 
-        self.result.value = "Processed => " + self.value
+        # Base64 decoding
+        sentence = base64.b64decode(self.value).decode('utf-8')
+
+        # Sentence tokenizing
+        tokenized_sentence = word_tokenize(sentence)
+
+        # Encoding result
+        resultBase64 = base64.b64encode(str(tokenized_sentence).encode('utf-8'))
+
+        # To respond we need to create a OutputMessage() object (from .proto file)
+        self.result = OutputMessage()
+        self.result.value = resultBase64
+        # log.debug('add({},{})={}'.format(self.a, self.b, self.result.value))
+        return self.result
+
+
+# Create a class to be added to the gRPC server
+# derived from the protobuf codes.
+class TagMessageServicer(grpc_bt_grpc.TaggingMessageServicer):
+
+    def __init__(self):
+        # Just for debugging purpose.
+        log.debug("TagMessageServicer created")
+
+    # The method that will be exposed to the snet-cli call command.
+    # request: incoming data
+    # context: object that provides RPC-specific information (timeout, etc).
+    def tag(self, request, context):
+        # In our case, request is a InputMessage() object (from .proto file)
+        self.value = request.value
+        # To respond we need to create a OutputMessage() object (from .proto file)
+        self.result = OutputMessage()
+
+        # Base64 decoding
+        sentence = base64.b64decode(self.value).decode('utf-8')
+
+        # Sentence tokenizing
+        tokenized_sentence = word_tokenize(sentence)
+
+        # Sentence taggning
+        tagged_sentence = pos_tag(tokenized_sentence)
+
+        # Encoding result
+        resultBase64 = base64.b64encode(str(tagged_sentence).encode('utf-8'))
+
+        # To respond we need to create a OutputMessage() object (from .proto file)
+        self.result = OutputMessage()
+        self.result.value = resultBase64
+        # log.debug('add({},{})={}'.format(self.a, self.b, self.result.value))
+        return self.result
+
+
+# Create a class to be added to the gRPC server
+# derived from the protobuf codes.
+class ChunkMessageServicer(grpc_bt_grpc.ChunkMessageServicer):
+
+    def __init__(self):
+        # Just for debugging purpose.
+        log.debug("ChunkMessageServicer created")
+
+    # The method that will be exposed to the snet-cli call command.
+    # request: incoming data
+    # context: object that provides RPC-specific information (timeout, etc).
+    def chunk(self, request, context):
+        # In our case, request is a InputMessage() object (from .proto file)
+        self.value = request.value
+        # To respond we need to create a OutputMessage() object (from .proto file)
+        self.result = OutputMessage()
+
+        # Base64 decoding
+        sentence = base64.b64decode(self.value).decode('utf-8')
+
+        # Sentence tokenizing
+        tokenized_sentence = word_tokenize(sentence)
+
+        # Sentence taggning
+        tagged_sentence = pos_tag(tokenized_sentence)
+
+        # Sentence chunking
+        chunked_sentence = ne_chunk(tagged_sentence)
+
+        # Encoding result
+        resultBase64 = base64.b64encode(str(chunked_sentence).encode('utf-8'))
+
+        # To respond we need to create a OutputMessage() object (from .proto file)
+        self.result = OutputMessage()
+        self.result.value = resultBase64
         # log.debug('add({},{})={}'.format(self.a, self.b, self.result.value))
         return self.result
 
@@ -100,7 +186,9 @@ class RecognizeServicerServicer(grpc_bt_grpc.RecognizeServicer):
 def serve(max_workers=10, port=7777):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
     grpc_bt_grpc.add_ShowMessageServicer_to_server(ShowMessageServicer(), server)
-    grpc_bt_grpc.add_RecognizeServicer_to_server(RecognizeServicerServicer(), server)
+    grpc_bt_grpc.add_TokenizeMessageServicer_to_server(TokenizeMessageServicer(), server)
+    grpc_bt_grpc.add_TaggingMessageServicer_to_server(TagMessageServicer(), server)
+    grpc_bt_grpc.add_ChunkMessageServicer_to_server(ChunkMessageServicer(), server)
     server.add_insecure_port('[::]:{}'.format(port))
     return server
 

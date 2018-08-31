@@ -20,7 +20,7 @@ if __name__ == '__main__':
         # create a stub (client)
         stub = grpc_bt_grpc.ShowMessageStub(channel)
         # create a valid request message
-        test_text = "RODANDO TESTES..."
+        test_text = "Running Tests..."
         message = grpc_bt_pb2.InputMessage(value=test_text)
         # make the call
         response = stub.show(message)
@@ -31,36 +31,36 @@ if __name__ == '__main__':
         print(e)
 
     try:
-        print("SentimentIntensityAnalysis() Method Test Starting... ")
-        print()
+        # print("SentimentIntensityAnalysis() Method Test Starting... ")
+        # print()
         # SentimentIntensityAnalysis() Method Test
         # create a stub (client)
-        stub = grpc_bt_grpc.SentimentIntensityAnalysisStub(channel)
+        # stub = grpc_bt_grpc.SentimentIntensityAnalysisStub(channel)
         # create a valid request message
-        test_data = b64_sentences.senteces()
-        message = grpc_bt_pb2.InputMessage(value=test_data)
+        # test_data = b64_sentences.senteces()
+        # message = grpc_bt_pb2.InputMessage(value=test_data)
         # make the call
-        response = stub.intensivityAnalysis(message)
-        print("SentimentIntensityAnalysis() Method Test Passed => " + response.value)
-        print()
+        # response = stub.intensivityAnalysis(message)
+        # print("SentimentIntensityAnalysis() Method Test Passed => " + response.value)
+        # print()
 
     except KeyError as e:
         print(e)
 
     try:
 
-        print("SentimentComplexAnalysis() Method Test Starting... ")
-        print()
+        # print("SentimentComplexAnalysis() Method Test Starting... ")
+        # print()
         # SentimentComplexAnalysis() Method Test
         # create a stub (client)
-        stub = grpc_bt_grpc.SentimentComplexAnalysisStub(channel)
+        # stub = grpc_bt_grpc.SentimentComplexAnalysisStub(channel)
         # create a valid request message
-        test_data = b64_sentences.senteces()
-        message = grpc_bt_pb2.InputMessage(value=test_data)
+        # test_data = b64_sentences.senteces()
+        # message = grpc_bt_pb2.InputMessage(value=test_data)
         # make the call
-        response = stub.complexAnalysis(message)
-        print("SentimentComplexAnalysis() Method Test Passed => " + response.value)
-        print()
+        # response = stub.complexAnalysis(message)
+        # print("SentimentComplexAnalysis() Method Test Passed => " + response.value)
+        # print()
 
     except KeyError as e:
         print(e)
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         # # make the call
         # response = stub.show(message)
         # print("CustomCorpusAnalysis() Method Test Passed => " + response.value)
-        print()
+        # print()
 
     except KeyError as e:
         print(e)
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         # make the call
         # response = stub.twitterAnalysis(message)
         # print("TwitterAnalysis() Method Test Passed => " + response.value)
-        print()
+        # print()
 
     except KeyError as e:
         print(e)

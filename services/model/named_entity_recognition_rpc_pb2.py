@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='services/model/named_entity_recognition_rpc.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n1services/model/named_entity_recognition_rpc.proto\"\x1d\n\x0cInputMessage\x12\r\n\x05value\x18\x01 \x01(\t\"\x1e\n\rOutputMessage\x12\r\n\x05value\x18\x01 \x01(\t26\n\x0bShowMessage\x12\'\n\x04show\x12\r.InputMessage\x1a\x0e.OutputMessage\"\x00\x32\x34\n\tRecognize\x12\'\n\x04show\x12\r.InputMessage\x1a\x0e.OutputMessage\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n1services/model/named_entity_recognition_rpc.proto\"\x1d\n\x0cInputMessage\x12\r\n\x05value\x18\x01 \x01(\t\"\x1e\n\rOutputMessage\x12\r\n\x05value\x18\x01 \x01(\t26\n\x0bShowMessage\x12\'\n\x04show\x12\r.InputMessage\x1a\x0e.OutputMessage\"\x00\x32\x38\n\x0eTaggingMessage\x12&\n\x03tag\x12\r.InputMessage\x1a\x0e.OutputMessage\"\x00\x32>\n\x0fTokenizeMessage\x12+\n\x08tokenize\x12\r.InputMessage\x1a\x0e.OutputMessage\"\x00\x32\x38\n\x0c\x43hunkMessage\x12(\n\x05\x63hunk\x12\r.InputMessage\x1a\x0e.OutputMessage\"\x00\x62\x06proto3')
 )
 
 
@@ -130,18 +130,18 @@ _sym_db.RegisterServiceDescriptor(_SHOWMESSAGE)
 DESCRIPTOR.services_by_name['ShowMessage'] = _SHOWMESSAGE
 
 
-_RECOGNIZE = _descriptor.ServiceDescriptor(
-  name='Recognize',
-  full_name='Recognize',
+_TAGGINGMESSAGE = _descriptor.ServiceDescriptor(
+  name='TaggingMessage',
+  full_name='TaggingMessage',
   file=DESCRIPTOR,
   index=1,
   options=None,
   serialized_start=172,
-  serialized_end=224,
+  serialized_end=228,
   methods=[
   _descriptor.MethodDescriptor(
-    name='show',
-    full_name='Recognize.show',
+    name='tag',
+    full_name='TaggingMessage.tag',
     index=0,
     containing_service=None,
     input_type=_INPUTMESSAGE,
@@ -149,8 +149,56 @@ _RECOGNIZE = _descriptor.ServiceDescriptor(
     options=None,
   ),
 ])
-_sym_db.RegisterServiceDescriptor(_RECOGNIZE)
+_sym_db.RegisterServiceDescriptor(_TAGGINGMESSAGE)
 
-DESCRIPTOR.services_by_name['Recognize'] = _RECOGNIZE
+DESCRIPTOR.services_by_name['TaggingMessage'] = _TAGGINGMESSAGE
+
+
+_TOKENIZEMESSAGE = _descriptor.ServiceDescriptor(
+  name='TokenizeMessage',
+  full_name='TokenizeMessage',
+  file=DESCRIPTOR,
+  index=2,
+  options=None,
+  serialized_start=230,
+  serialized_end=292,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='tokenize',
+    full_name='TokenizeMessage.tokenize',
+    index=0,
+    containing_service=None,
+    input_type=_INPUTMESSAGE,
+    output_type=_OUTPUTMESSAGE,
+    options=None,
+  ),
+])
+_sym_db.RegisterServiceDescriptor(_TOKENIZEMESSAGE)
+
+DESCRIPTOR.services_by_name['TokenizeMessage'] = _TOKENIZEMESSAGE
+
+
+_CHUNKMESSAGE = _descriptor.ServiceDescriptor(
+  name='ChunkMessage',
+  full_name='ChunkMessage',
+  file=DESCRIPTOR,
+  index=3,
+  options=None,
+  serialized_start=294,
+  serialized_end=350,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='chunk',
+    full_name='ChunkMessage.chunk',
+    index=0,
+    containing_service=None,
+    input_type=_INPUTMESSAGE,
+    output_type=_OUTPUTMESSAGE,
+    options=None,
+  ),
+])
+_sym_db.RegisterServiceDescriptor(_CHUNKMESSAGE)
+
+DESCRIPTOR.services_by_name['ChunkMessage'] = _CHUNKMESSAGE
 
 # @@protoc_insertion_point(module_scope)
